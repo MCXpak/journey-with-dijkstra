@@ -19,15 +19,24 @@ console.log(circle_vels)
 let xPos = 0;
 let yPos = 0;
 
+function randColor(){
+    return Math.floor(Math.random()*16777215).toString(16);
+}
+
 window.addEventListener('pointerdown', pointerdown, false);
 
-function pointerdown(e){
+function createNode(){
     let x = event.clientX;
     let y = event.clientY;
     let n = two.makeCircle(x, y, 50 ,50);
+    n.fill = randColor();
     n.velocity = new Two.Vector();
     circles.push(n);
     circle_vels.push([0,0])
+}
+
+function pointerdown(e){
+    createNode()
 }
 
 function wobble(shape, node, l){
