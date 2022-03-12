@@ -23,13 +23,15 @@ function randColor(){
     return Math.floor(Math.random()*16777215).toString(16);
 }
 
+randColor();
+
 window.addEventListener('pointerdown', pointerdown, false);
 
 function createNode(){
     let x = event.clientX;
     let y = event.clientY;
     let n = two.makeCircle(x, y, 50 ,50);
-    n.fill = randColor();
+    n.fill = "#" + randColor();
     n.velocity = new Two.Vector();
     circles.push(n);
     circle_vels.push([0,0])
