@@ -2,7 +2,8 @@
 let nodes = [];
 let node_vels = [];
 let vertices = [];
-let verticesToAdd = [];
+let pointsToAddToVertex = [];
+let nodesToAddToVertex =[]
 let tx = 0;
 let ty = 0;
 
@@ -30,9 +31,10 @@ class Vertex{
     constructor(startX, startY, endX, endY){
         this.position = [startX, startY, endX, endY];
         this.vertex = line(this.position[0], this.position[1], this.position[2], this.position[3]);
+        this.startEndNodes = [];
     }
     followNodes(){
-        
+        this.vertex = line(this.startEndNodes[0].position.x, this.startEndNodes[0].position.y, this.startEndNodes[1].position.x, this.startEndNodes[1].position.y);
     }
     show(){
         this.vertex = line(this.position[0], this.position[1], this.position[2], this.position[3]);
@@ -48,7 +50,7 @@ function draw() {
     background(127);
     line(100,100,200,200);
     for (let i = 0; i < vertices.length; i++) {
-        vertices[i].show();
+        vertices[i].followNodes();
     }
 
     for (let i = 0; i < nodes.length; i++) {
@@ -66,16 +68,21 @@ function clickedOnNode(){
         if (d < 25) {
             //let newNode = new Node(currentNode.position.x, currentNode.position.y);
             //newNode.fill = [143,141,29];
-            if (verticesToAdd.length <= 4){
-                verticesToAdd.push(currentNode.position.x);
-                verticesToAdd.push(currentNode.position.y);
-                console.log("Vertices added:", verticesToAdd);
+            if (pointsToAddToVertex.length <= 4){
+                pointsToAddToVertex.push(currentNode.position.x);
+                pointsToAddToVertex.push(currentNode.position.y);
+                nodesToAddToVertex.push(currentNode);
+                console.log("Vertices added:", pointsToAddToVertex);
+                console.log(nodesToAddToVertex);
             }
-            if (verticesToAdd.length == 4){
+            if (pointsToAddToVertex.length == 4){
                 console.log("2");
-                let vertex = new Vertex(verticesToAdd[0],verticesToAdd[1],verticesToAdd[2],verticesToAdd[3]);
+                let vertex = new Vertex(pointsToAddToVertex[0],pointsToAddToVertex[1],pointsToAddToVertex[2],pointsToAddToVertex[3]);
+                vertex.startEndNodes = nodesToAddToVertex.slice();
                 vertices.push(vertex);
-                while (verticesToAdd.length) { verticesToAdd.pop(); }
+                console.log(nodesToAddToVertex);
+                while (pointsToAddToVertex.length) { pointsToAddToVertex.pop(); }
+                while (nodesToAddToVertex.length) { nodesToAddToVertex.pop(); }
             }
             //nodes[node] = newNode;
             //console.log(currentNode);
