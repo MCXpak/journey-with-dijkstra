@@ -88,21 +88,43 @@ function draw() {
 
 
 function addToGraph(nodesToAddToVertex, weight){
-    let i = 0
-    let node1Id = nodesToAddToVertex[0].nodeId;
-    let node2Id = new String(nodesToAddToVertex[1].nodeId);
-    let obj = {[node2Id] : weight.value};
-    graph[node1Id] = obj;
-    console.log(graph);
-    (Object.values(graph)[0]).push({"test":20})
-    console.log(Object.values(graph)[0]);
+    let node1 = nodesToAddToVertex[0].nodeId;
+    let node2 = nodesToAddToVertex[1].nodeId;
+    console.log("nodes " + node1 + " " + node2)
+    let obj = {[node2] : weight.value};
+    let graphKeys = Object.keys(graph);
+    if (graph[node1] == null) {
+        graph[node1] = obj;
+    }
+    graph[node1] = Object.assign(graph[node1], {[node2] : weight.value});
+    
+    //graphKeys = Object.keys(graph);
+    console.log("Graph:     ", graph)
+    console.log("----------------")
+    //console.log(graph);
+    //let graphKeys = Object.keys(graph);
+    //console.log(graph)
+    //for(let i = 0; i < graphKeys.length; i++){
+    //    if (Object.keys(graph)[i] == node1 || Object.keys(graph)[i] == node2){
+            //console.log("node in graph: " + Object.keys(graph))
+    //    }
+    //}
+    //console.log(graph[node1])
+    //graph[node1][node2] = weight.value;
+    //console.log("help ", graph)
+    
+    //Object.values(graph)[0]['T'] = 10
+    //console.log(Object.values(graph)[0]['T'])
+    //(Object.values(graph)[graphCounter])['key'+graphCounter] = 20;
+    //console.log(Object.values(graph)[0]);
+    //graphCounter += 1;
 }
 
 function clickedOnNode(){
     for (let node = 0; node < nodes.length; node++) {
         let currentNode = nodes[node];
-        console.log("yes")
-        console.log()
+        //console.log("yes")
+        //console.log()
         let d = dist(mouseX, mouseY, currentNode.position.x, currentNode.position.y);
         if (d < 25) {
             //let newNode = new Node(currentNode.position.x, currentNode.position.y);
@@ -123,21 +145,21 @@ function clickedOnNode(){
                     pointsToAddToVertex.push(currentNode.position.y);
                     nodesToAddToVertex.push(currentNode);
                     currentNode.fill = [143,141,29];
-                    console.log("Vertices added:", pointsToAddToVertex);
-                    console.log(nodesToAddToVertex);
+                    //console.log("Vertices added:", pointsToAddToVertex);
+                    //console.log(nodesToAddToVertex);
                 }
                 else{
                     while (pointsToAddToVertex.length) { pointsToAddToVertex.pop(); }
                     while (nodesToAddToVertex.length) { nodesToAddToVertex.pop(); }
                 }
                 if (pointsToAddToVertex.length == 4){
-                    console.log("2");
+                    //console.log("2");
                     let vertex = new Vertex(pointsToAddToVertex[0],pointsToAddToVertex[1],pointsToAddToVertex[2],pointsToAddToVertex[3]);
                     vertex.startEndNodes = nodesToAddToVertex.slice();
                     let weight = new Weight(10, vertex);
                     vertices.push(vertex);
                     vertexWeights.push(weight);
-                    console.log(nodesToAddToVertex, weight);
+                    //console.log(nodesToAddToVertex, weight);
                     addToGraph(nodesToAddToVertex, weight);
                     while (pointsToAddToVertex.length) { pointsToAddToVertex.pop(); }
                     while (nodesToAddToVertex.length) { nodesToAddToVertex.pop(); }
@@ -159,6 +181,6 @@ function mousePressed() {
         let newNode = new Node(mouseX, mouseY);
         nodes.push(newNode);
         node_vels.push([0,0]);
-        console.log(nodes);
+        //console.log(nodes);
     }    
 }
