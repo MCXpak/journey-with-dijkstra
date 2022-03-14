@@ -97,27 +97,8 @@ function addToGraph(nodesToAddToVertex, weight){
         graph[node1] = obj;
     }
     graph[node1] = Object.assign(graph[node1], {[node2] : weight.value});
-    
-    //graphKeys = Object.keys(graph);
     console.log("Graph:     ", graph)
     console.log("----------------")
-    //console.log(graph);
-    //let graphKeys = Object.keys(graph);
-    //console.log(graph)
-    //for(let i = 0; i < graphKeys.length; i++){
-    //    if (Object.keys(graph)[i] == node1 || Object.keys(graph)[i] == node2){
-            //console.log("node in graph: " + Object.keys(graph))
-    //    }
-    //}
-    //console.log(graph[node1])
-    //graph[node1][node2] = weight.value;
-    //console.log("help ", graph)
-    
-    //Object.values(graph)[0]['T'] = 10
-    //console.log(Object.values(graph)[0]['T'])
-    //(Object.values(graph)[graphCounter])['key'+graphCounter] = 20;
-    //console.log(Object.values(graph)[0]);
-    //graphCounter += 1;
 }
 
 function clickedOnNode(){
