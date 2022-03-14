@@ -5,14 +5,17 @@ let vertices = [];
 let pointsToAddToVertex = [];
 let nodesToAddToVertex = [];
 let vertexWeights = []
-
+let nodeIdList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+let nodeIdListCounter = 0;
 let graph = {};
-
+let graphCounter = 0;
 
 
 class Node{
     constructor(xPos, yPos){
         this.node = ellipse(xPos, yPos, 50, 50);
+        this.nodeId = nodeIdList[nodeIdListCounter];
+        nodeIdListCounter += 1;
         this.position = createVector(xPos, yPos);
         this.velocity = createVector(0, 0);
         this.fill = [200,200,200];
@@ -45,8 +48,8 @@ class Vertex{
 
 class Weight{
     constructor(weight, vertex){
-        this.weight = weight;
-        this.text = text(weight, 0, 0);
+        this.value = weight;
+        this.text = text(this.value, 0, 0);
         this.position = createVector(0, 0);
         this.vertex = vertex;
     }
@@ -55,9 +58,13 @@ class Weight{
         let y_dist = this.vertex.position[1] - this.vertex.position[3];
         let mid_x = (this.vertex.position[0] - x_dist / 2);
         let mid_y = (this.vertex.position[1] - y_dist / 2);
-        this.text = text(this.weight, mid_x, mid_y);
+        this.text = text(this.value, mid_x, mid_y);
     }
 }
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
 
 function setup() {
     createCanvas(720, 400);
@@ -77,6 +84,18 @@ function draw() {
         nodes[i].show();
         nodes[i].wobble(i);
     }
+}
+
+
+function addToGraph(nodesToAddToVertex, weight){
+    let i = 0
+    let node1Id = nodesToAddToVertex[0].nodeId;
+    let node2Id = new String(nodesToAddToVertex[1].nodeId);
+    let obj = {[node2Id] : weight.value};
+    graph[node1Id] = obj;
+    console.log(graph);
+    (Object.values(graph)[0]).push({"test":20})
+    console.log(Object.values(graph)[0]);
 }
 
 function clickedOnNode(){
@@ -115,10 +134,11 @@ function clickedOnNode(){
                     console.log("2");
                     let vertex = new Vertex(pointsToAddToVertex[0],pointsToAddToVertex[1],pointsToAddToVertex[2],pointsToAddToVertex[3]);
                     vertex.startEndNodes = nodesToAddToVertex.slice();
-                    let weight = new Weight("test", vertex);
+                    let weight = new Weight(10, vertex);
                     vertices.push(vertex);
                     vertexWeights.push(weight);
-                    console.log(nodesToAddToVertex);
+                    console.log(nodesToAddToVertex, weight);
+                    addToGraph(nodesToAddToVertex, weight);
                     while (pointsToAddToVertex.length) { pointsToAddToVertex.pop(); }
                     while (nodesToAddToVertex.length) { nodesToAddToVertex.pop(); }
                 }
