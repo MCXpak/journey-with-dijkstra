@@ -4,8 +4,8 @@ let node_vels = [];
 let vertices = [];
 let pointsToAddToVertex = [];
 let nodesToAddToVertex = [];
-let vertexWeights = []
-let nodeIdList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+let vertexWeights = [];
+let nodeIdList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"] //when we want to have more nodes, we can combine them e.g. AA, AB... etc
 let nodeIdListCounter = 0;
 let graph = {};
 let graphCounter = 0;
@@ -67,12 +67,12 @@ function getRandomInt(max) {
   }
 
 function setup() {
-    createCanvas(720, 400);
-    background(127);
+    createCanvas(1920, 1080);
+    background(255);
 }
 
 function draw() {
-    background(127);
+    background(255);
     for (let i = 0; i < vertices.length; i++) {
         vertices[i].followNodes();
     }
@@ -92,20 +92,12 @@ function addToGraph(nodesToAddToVertex, weight){
     let node2 = nodesToAddToVertex[1].nodeId;
     console.log("nodes " + node1 + " " + node2)
     let obj = {[node2] : weight.value};
-    let graphKeys = Object.keys(graph);
+    //let graphKeys = Object.keys(graph);
     if (graph[node1] == null) {
         graph[node1] = obj;
     }
     graph[node1] = Object.assign(graph[node1], {[node2] : weight.value});
     console.log("Graph:     ", graph)
-    /*
-    let keys = Object.keys(graph);
-    console.log(keys)
-    console.log(keys[keys.length-1])
-    console.log(graph[keys[keys.length-1]])
-    let subkeys = Object.keys(graph[keys[keys.length-1]])
-    console.log(subkeys[subkeys.length-1])
-    */
     console.log("----------------")
 }
 
@@ -114,7 +106,21 @@ function calculate(){
     let keys = Object.keys(graph);
     let subkeys = Object.keys(graph[keys[keys.length-1]]);
     graph[subkeys[subkeys.length-1]] = {};
-    console.log('dijkstra', dijkstra(graph));
+    let results = dijkstra(graph)
+    console.log('dijkstra', results);
+    dijkstraNodeColorChange(results);
+}
+
+function dijkstraNodeColorChange(results){
+    let path = results.path
+    for (let node = 0; node < nodes.length; node++) {
+        for(let i = 0; i < path.length; i++){
+            console.log("Node: ", nodes[node].nodeId, " Node Path: ", path[i])
+            if(nodes[node].nodeId == path[i]){
+                nodes[node].fill = [35,200,35];
+            }
+        }
+    }
 }
 
 function clickedOnNode(){
@@ -209,7 +215,7 @@ const dijkstra = (graph) => {
     // track paths
     const trackedParents = {finish: null};
     for (let child in graph[start]) {
-        trackedParents[child] = 'start';
+        trackedParents[child] = 'A';
     }
     console.log('Initial `parents`: ')
     console.log(trackedParents)
@@ -246,8 +252,7 @@ const dijkstra = (graph) => {
         node = findLowestCostNode(trackedCosts, processedNodes);
     }
     console.log('while loop ends: ')
-
-    let optimalPath = ['finish'];
+    let optimalPath = [finish];
     let parent = trackedParents[finish];
     while (parent) {
         optimalPath.push(parent);
