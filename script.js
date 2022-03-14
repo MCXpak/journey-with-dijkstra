@@ -3,7 +3,8 @@ let nodes = [];
 let node_vels = [];
 let vertices = [];
 let pointsToAddToVertex = [];
-let nodesToAddToVertex =[]
+let nodesToAddToVertex = [];
+let vertexWeights = []
 let tx = 0;
 let ty = 0;
 
@@ -34,10 +35,32 @@ class Vertex{
         this.startEndNodes = [];
     }
     followNodes(){
+        this.position = [this.startEndNodes[0].position.x, this.startEndNodes[0].position.y, this.startEndNodes[1].position.x, this.startEndNodes[1].position.y]
         this.vertex = line(this.startEndNodes[0].position.x, this.startEndNodes[0].position.y, this.startEndNodes[1].position.x, this.startEndNodes[1].position.y);
     }
     show(){
         this.vertex = line(this.position[0], this.position[1], this.position[2], this.position[3]);
+    }
+}
+
+class Weight{
+    constructor(weight, vertex){
+        this.weight = weight;
+        this.text = text(weight, 0, 0);
+        this.position = createVector(0, 0);
+        this.vertex = vertex;
+    }
+    followVertex(){
+        let x_dist = this.vertex.position[0] - this.vertex.position[2];
+        let y_dist = this.vertex.position[1] - this.vertex.position[3];
+        let mid_x = (this.vertex.position[0] - x_dist / 2);
+        let mid_y = (this.vertex.position[1] - y_dist / 2);
+        let inv_grad = 1/(mid_y/mid_y);
+        let hyp = Math.sqrt(mid_x**2, mid_y**2);
+        let y = 5
+        let x = -inv_grad*hyp
+        console.log(mid_x,mid_y);
+        this.text = text(this.weight, mid_x, mid_y);
     }
 }
 
@@ -48,11 +71,12 @@ function setup() {
 
 function draw() {
     background(127);
-    line(100,100,200,200);
+    for (let i = 0; i < vertexWeights.length; i++) {
+        vertexWeights[i].followVertex();
+    }
     for (let i = 0; i < vertices.length; i++) {
         vertices[i].followNodes();
     }
-
     for (let i = 0; i < nodes.length; i++) {
         nodes[i].show();
         nodes[i].wobble(i);
@@ -75,11 +99,17 @@ function clickedOnNode(){
                 console.log("Vertices added:", pointsToAddToVertex);
                 console.log(nodesToAddToVertex);
             }
+            else{
+                while (pointsToAddToVertex.length) { pointsToAddToVertex.pop(); }
+                while (nodesToAddToVertex.length) { nodesToAddToVertex.pop(); }
+            }
             if (pointsToAddToVertex.length == 4){
                 console.log("2");
                 let vertex = new Vertex(pointsToAddToVertex[0],pointsToAddToVertex[1],pointsToAddToVertex[2],pointsToAddToVertex[3]);
                 vertex.startEndNodes = nodesToAddToVertex.slice();
+                let weight = new Weight("test", vertex);
                 vertices.push(vertex);
+                vertexWeights.push(weight);
                 console.log(nodesToAddToVertex);
                 while (pointsToAddToVertex.length) { pointsToAddToVertex.pop(); }
                 while (nodesToAddToVertex.length) { nodesToAddToVertex.pop(); }
@@ -87,6 +117,8 @@ function clickedOnNode(){
             //nodes[node] = newNode;
             //console.log(currentNode);
             //console.log("in node")
+            
+            
             return true
         }
         
