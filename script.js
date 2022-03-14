@@ -73,16 +73,16 @@ function setup() {
 
 function draw() {
     background(127);
-    for (let i = 0; i < vertexWeights.length; i++) {
-        fill(0,0,0);
-        vertexWeights[i].followVertex();
-    }
     for (let i = 0; i < vertices.length; i++) {
         vertices[i].followNodes();
     }
     for (let i = 0; i < nodes.length; i++) {
         nodes[i].show();
         nodes[i].wobble(i);
+    }
+    for (let i = 0; i < vertexWeights.length; i++) {
+        fill(0,0,0);
+        vertexWeights[i].followVertex();
     }
 }
 
@@ -98,7 +98,23 @@ function addToGraph(nodesToAddToVertex, weight){
     }
     graph[node1] = Object.assign(graph[node1], {[node2] : weight.value});
     console.log("Graph:     ", graph)
+    /*
+    let keys = Object.keys(graph);
+    console.log(keys)
+    console.log(keys[keys.length-1])
+    console.log(graph[keys[keys.length-1]])
+    let subkeys = Object.keys(graph[keys[keys.length-1]])
+    console.log(subkeys[subkeys.length-1])
+    */
     console.log("----------------")
+}
+
+function calculate(){
+    console.log("HI");
+    let keys = Object.keys(graph);
+    let subkeys = Object.keys(graph[keys[keys.length-1]]);
+    graph[subkeys[subkeys.length-1]] = {};
+    console.log('dijkstra', dijkstra(graph));
 }
 
 function clickedOnNode(){
@@ -137,7 +153,7 @@ function clickedOnNode(){
                     //console.log("2");
                     let vertex = new Vertex(pointsToAddToVertex[0],pointsToAddToVertex[1],pointsToAddToVertex[2],pointsToAddToVertex[3]);
                     vertex.startEndNodes = nodesToAddToVertex.slice();
-                    let weight = new Weight(10, vertex);
+                    let weight = new Weight(getRandomInt(20), vertex);
                     vertices.push(vertex);
                     vertexWeights.push(weight);
                     //console.log(nodesToAddToVertex, weight);
@@ -146,11 +162,6 @@ function clickedOnNode(){
                     while (nodesToAddToVertex.length) { nodesToAddToVertex.pop(); }
                 }
             }
-            
-            //nodes[node] = newNode;
-            //console.log(currentNode);
-            //console.log("in node")
-            
             return true
         }
         
@@ -165,3 +176,89 @@ function mousePressed() {
         //console.log(nodes);
     }    
 }
+
+const findLowestCostNode = (costs, processed) => {
+    const knownNodes = Object.keys(costs)
+    
+    const lowestCostNode = knownNodes.reduce((lowest, node) => {
+        if (lowest === null && !processed.includes(node)) {
+          lowest = node;
+        }
+        if (costs[node] < costs[lowest] && !processed.includes(node)) {
+          lowest = node;
+        }
+        return lowest;
+    }, null);
+  
+    return lowestCostNode
+  };
+  
+// function that returns the minimum cost and path to reach Finish
+const dijkstra = (graph) => {
+    let keys = Object.keys(graph)
+    start = keys[0]
+    finish = keys[keys.length-1]
+    console.log('Graph: ')
+    console.log(graph)
+
+    // track lowest cost to reach each node
+    const trackedCosts = Object.assign({finish: Infinity}, graph[start]);
+    console.log('Initial `costs`: ')
+    console.log(trackedCosts)
+
+    // track paths
+    const trackedParents = {finish: null};
+    for (let child in graph[start]) {
+        trackedParents[child] = 'start';
+    }
+    console.log('Initial `parents`: ')
+    console.log(trackedParents)
+
+    // track nodes that have already been processed
+    const processedNodes = [];
+
+    // Set initial node. Pick lowest cost node.
+    let node = findLowestCostNode(trackedCosts, processedNodes);
+    console.log('Initial `node`: ', node)
+
+    console.log('while loop starts: ')
+    while (node) {
+        console.log(`***** 'currentNode': ${node} *****`)
+        let costToReachNode = trackedCosts[node];
+        let childrenOfNode = graph[node];
+
+        for (let child in childrenOfNode) {
+        let costFromNodetoChild = childrenOfNode[child]
+        let costToChild = costToReachNode + costFromNodetoChild;
+
+        if (!trackedCosts[child] || trackedCosts[child] > costToChild) {
+            trackedCosts[child] = costToChild;
+            trackedParents[child] = node;
+        }
+
+        console.log('`trackedCosts`', trackedCosts)
+        console.log('`trackedParents`', trackedParents)
+        console.log('----------------')
+        }
+
+        processedNodes.push(node);
+
+        node = findLowestCostNode(trackedCosts, processedNodes);
+    }
+    console.log('while loop ends: ')
+
+    let optimalPath = ['finish'];
+    let parent = trackedParents[finish];
+    while (parent) {
+        optimalPath.push(parent);
+        parent = trackedParents[parent];
+    }
+    optimalPath.reverse();
+
+    const results = {
+        distance: trackedCosts[finish],
+        path: optimalPath
+    };
+
+    return results;
+};
