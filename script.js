@@ -67,12 +67,12 @@ function getRandomInt(max) {
   }
 
 function setup() {
-    createCanvas(1920, 1080);
+    createCanvas(1500, 1000);
     background(65, 65, 65);
 }
 
 function draw() {
-    background(65, 65, 65);
+    background(100, 100, 100);
     for (let i = 0; i < vertices.length; i++) {
         vertices[i].followNodes();
     }
