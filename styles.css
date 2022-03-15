@@ -1,6 +1,7 @@
 
 body {
-    background-color: rgb(65, 65, 65);
+    margin: 0;
+    background-color: #42929D;
     font-family: 'Open Sans', sans-serif;
     display: grid;
     grid-template-rows: auto;
@@ -12,9 +13,15 @@ body {
 }
 #header {
     justify-self: center;
+    
 }
 
-main { 
+#title {
+}
+
+main {
+    margin: 10px;
+    padding:10px;
     justify-self: center;
 }
 
@@ -25,6 +32,7 @@ main {
 }
 
 #calculate {
+    display: flex;
     background-color: #16beb0; /* Green */
     border: none;
     color: white;
