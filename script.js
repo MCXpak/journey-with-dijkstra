@@ -68,20 +68,23 @@ function getRandomInt(max) {
 
 function setup() {
     createCanvas(1920, 1080);
-    background(255);
+    background(65, 65, 65);
 }
 
 function draw() {
-    background(255);
+    background(65, 65, 65);
     for (let i = 0; i < vertices.length; i++) {
         vertices[i].followNodes();
     }
     for (let i = 0; i < nodes.length; i++) {
+        noStroke();
         nodes[i].show();
         nodes[i].wobble(i);
     }
     for (let i = 0; i < vertexWeights.length; i++) {
         fill(0,0,0);
+        stroke(51)
+        strokeWeight(2)
         vertexWeights[i].followVertex();
     }
 }
