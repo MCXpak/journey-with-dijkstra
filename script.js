@@ -18,7 +18,7 @@ class Node{
         nodeIdListCounter += 1;
         this.position = createVector(xPos, yPos);
         this.velocity = createVector(0, 0);
-        this.fill = [200,200,200];
+        this.fill = [238,186,11];
         this.clicked = false;
     }
     wobble(i){
@@ -120,7 +120,7 @@ function dijkstraNodeColorChange(results){
         for(let i = 0; i < path.length; i++){
             console.log("Node: ", nodes[node].nodeId, " Node Path: ", path[i])
             if(nodes[node].nodeId == path[i]){
-                nodes[node].fill = [35,200,35];
+                nodes[node].fill = [113,0,0];
             }
         }
     }
@@ -150,7 +150,7 @@ function clickedOnNode(){
                     pointsToAddToVertex.push(currentNode.position.x);
                     pointsToAddToVertex.push(currentNode.position.y);
                     nodesToAddToVertex.push(currentNode);
-                    currentNode.fill = [143,141,29];
+                    currentNode.fill = [166,60,6];
                     //console.log("Vertices added:", pointsToAddToVertex);
                     //console.log(nodesToAddToVertex);
                 }
