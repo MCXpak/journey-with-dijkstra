@@ -2,33 +2,83 @@
 body {
     margin: 0;
     background-color: #42929D;
-    font-family: 'Open Sans', sans-serif;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font: ui-sans-serif;
     display: grid;
     grid-template-rows: auto;
     grid-template-columns: auto;
-    grid-template-areas: 
+    grid-template-areas:
+    "nav-div" 
     "header"
-    "main main";
+    "main";
 
 }
+/* Navbar */
+.nav-div {
+    padding: 100px;
+}
+
+#navigation {
+    color: #fff;
+}
+
+#menu {
+    margin-top: 50px;
+    padding: 0;
+
+}
+
+#menu li {
+    padding: 20px 20px 20px;
+    color: black;
+    list-style-type: none;
+    text-align: center;
+}
+
 #header {
-    justify-self: center;
-    
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 30px;
+    background-color: #F4F4E1;
+    box-shadow: 0px 0px 15px 0 rgba(0,0,0,0.7);
 }
 
-#title {
+.title {
+    margin: 25px;
+    padding: 10px;
+    font-size: 3rem;
 }
 
 main {
+    grid-area: main;
+    justify-self: center;
+    display: grid;
+    grid-template-areas:
+    "title title"
+    "canvas output";
+    gap: 5px;
     margin: 10px;
     padding:10px;
-    justify-self: center;
+}
+
+#graph-title {
+    grid-area: title;
+    margin-bottom: 30px;
+    font-size: 2rem;
+
 }
 
 #defaultCanvas0 {
+    grid-area: canvas;
     justify-self: end;
     border-radius: 100px;
     box-shadow: 0px 0px 15px 0 rgba(0,0,0,0.7);
+}
+#output {
+    grid-area: output;
+    align-self: center;
+    justify-self: center;
 }
 
 #calculate {
@@ -51,4 +101,6 @@ main {
     transform: scale(1.1);
 }
 
+
+/* Background Animation*/
 

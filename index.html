@@ -11,11 +11,24 @@
   </head>
   <body>
     <div id="header">
-      <h1 id="title">A jounrey with dijktra</h1>
-      <button id="calculate" onclick=calculate()>Calculate</button>
+      <div>
+        <h1 class="title">A Journey</h1>
+        <h1 class="title">With Dijktra</h1>
+      </div>
+      <div id="navigation">
+        <ul id="menu">
+          <li>Home</li>
+          <li>About</li>
+        </ul>
+      </div>
     </div>
     <main>
-      <div id="canvas"></div>
+      <h2 id="graph-title">Graph</h2>
+      <div id="output">
+        <button id="calculate" onclick=calculate()>Calculate</button>
+        <div id="output-graph"></div>
+      </div>
     </main>
+    
   </body>
 </html>
