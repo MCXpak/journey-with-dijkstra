@@ -1,4 +1,3 @@
-
 let nodes = [];
 let node_vels = [];
 let vertices = [];
@@ -7,9 +6,9 @@ let nodesToAddToVertex = [];
 let vertexWeights = [];
 let nodeIdList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"] //when we want to have more nodes, we can combine them e.g. AA, AB... etc
 let nodeIdListCounter = 0;
+let nodeTextList = [];
 let graph = {};
 let graphCounter = 0;
-
 
 class Node{
     constructor(xPos, yPos){
@@ -62,6 +61,16 @@ class Weight{
     }
 }
 
+class NodeText{
+    constructor(node){
+        this.node = node
+        this.text = text(node.nodeId, node.position.x, node.position.y);
+    }
+    followNode(node){
+        this.text = text(nodes[node].nodeId, nodes[node].position.x-4, nodes[node].position.y+5);
+    }
+}
+
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
   }
@@ -86,6 +95,11 @@ function draw() {
         stroke(51)
         strokeWeight(2)
         vertexWeights[i].followVertex();
+    }
+    for (let i = 0; i < nodeTextList.length; i++) {
+        fill(23,42,200);
+        textSize(15);
+        nodeTextList[i].followNode(i);
     }
 }
 
@@ -113,7 +127,8 @@ function calculate(){
     console.log('dijkstra', results);
     console.log(graph);
     dijkstraNodeColorChange(results);
-    document.getElementById('output-graph').innerHTML += JSON.stringify(graph);
+    document.getElementById('whole-graph').innerHTML += JSON.stringify(graph);
+    document.getElementById('optimum-path').innerHTML += JSON.stringify(results.path);
 }
 
 function dijkstraNodeColorChange(results){
@@ -182,7 +197,9 @@ function clickedOnNode(){
 function mousePressed() {
     if(!clickedOnNode()){
         let newNode = new Node(mouseX, mouseY);
+        let newNodeText = new NodeText(newNode);
         nodes.push(newNode);
+        nodeTextList.push(newNodeText);
         node_vels.push([0,0]);
         //console.log(nodes);
     }    
@@ -203,7 +220,8 @@ const findLowestCostNode = (costs, processed) => {
   
     return lowestCostNode
   };
-  
+
+//CREDIT: Stella Chung @stll.chung at HackerNoon 
 // function that returns the minimum cost and path to reach Finish
 const dijkstra = (graph) => {
     let keys = Object.keys(graph)

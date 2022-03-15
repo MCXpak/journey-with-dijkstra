@@ -11,7 +11,6 @@ body {
     "nav-div" 
     "header"
     "main";
-
 }
 /* Navbar */
 .nav-div {
@@ -102,7 +101,7 @@ main {
     transform: scale(1.1);
 }
 
-#output-graph {
+.output-graph {
     background-color: #F4F4E1;
     max-width: 100px;
     border-radius:20px;
