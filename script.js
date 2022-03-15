@@ -111,7 +111,9 @@ function calculate(){
     graph[subkeys[subkeys.length-1]] = {};
     let results = dijkstra(graph)
     console.log('dijkstra', results);
+    console.log(graph);
     dijkstraNodeColorChange(results);
+    document.getElementById('output-graph').innerHTML += JSON.stringify(graph);
 }
 
 function dijkstraNodeColorChange(results){

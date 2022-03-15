@@ -56,6 +56,7 @@ main {
     display: grid;
     grid-template-areas:
     "title title"
+    "canvas output"
     "canvas output";
     gap: 5px;
     margin: 10px;
@@ -101,6 +102,11 @@ main {
     transform: scale(1.1);
 }
 
-
+#output-graph {
+    background-color: #F4F4E1;
+    max-width: 100px;
+    border-radius:20px;
+    padding: 50px;
+}
 /* Background Animation*/
 
