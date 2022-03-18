@@ -66,13 +66,21 @@ h2{
     padding:20px;
 }
 
-#graph-title {
+.above-canvas{
     grid-area: title;
     justify-self: center;
-    margin-bottom: 30px;
-    font-size: 2rem;
+}
+
+#graph-title {
+
 
 }
+
+#intructions{
+    
+}
+
+
 
 #defaultCanvas0 {
     grid-area: canvas;
